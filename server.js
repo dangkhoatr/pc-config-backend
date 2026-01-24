@@ -1,31 +1,26 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
+const PORT = 3000;
+
 app.use(cors());
 app.use(express.json());
 
-const PORT = 3000;
+// Cho phép truy cập file tĩnh (A.html, view.html)
+app.use(express.static(__dirname));
 
-// Database tạm (RAM)
-const sharedBuilds = {};
-
-// API: tạo link chia sẻ
-app.post("/api/share", (req, res) => {
-  const id = Date.now().toString(36);
-  sharedBuilds[id] = req.body;
-  res.json({ id });
+// Trang mặc định
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "A.html"));
 });
 
-// API: lấy cấu hình theo id
-app.get("/api/build/:id", (req, res) => {
-  const build = sharedBuilds[req.params.id];
-  if (!build) {
-    return res.status(404).json({ message: "Không tìm thấy cấu hình" });
-  }
-  res.json(build);
+// Trang xem cấu hình chia sẻ
+app.get("/view", (req, res) => {
+  res.sendFile(path.join(__dirname, "view.html"));
 });
 
 app.listen(PORT, () => {
-  console.log(`Backend chạy tại http://localhost:${PORT}`);
+  console.log(`Server running at http://localhost:${PORT}`);
 });

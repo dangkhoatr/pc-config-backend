@@ -1,40 +1,139 @@
 <!doctype html>
 <html lang="vi">
+
 <head>
-<meta charset="utf-8">
-<title>Xem cấu hình PC</title>
-<style>
-body { font-family: 'Times New Roman'; padding: 40px }
-.item { border-bottom: 1px solid #ddd; padding: 8px 0 }
-.total { font-weight: bold; margin-top: 20px }
-</style>
+  <meta charset="utf-8">
+  <title>Xem cấu hình PC đã chia sẻ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Times New Roman', serif;
+      background: #f9fafb;
+    }
+
+    .page {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #ffffff;
+      padding: 30px;
+      border: 1px solid #e5e7eb;
+    }
+
+    h2 {
+      margin-top: 0;
+      color: #1f2937;
+    }
+
+    .item {
+      padding: 10px 0;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .item b {
+      color: #111827;
+    }
+
+    .total {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #2b90ef;
+      text-align: right;
+    }
+
+    .back {
+      margin-top: 30px;
+      display: inline-block;
+      padding: 10px 16px;
+      background: #2b90ef;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .error {
+      text-align: center;
+      font-size: 20px;
+      margin-top: 80px;
+      color: #dc2626;
+    }
+  </style>
 </head>
 
 <body>
-<h2>CẤU HÌNH PC ĐÃ CHỌN</h2>
-<div id="list"></div>
-<div class="total" id="total"></div>
 
-<script>
-(async function () {
-  const id = new URLSearchParams(location.search).get("id");
-  if (!id) return;
+  <div class="page" id="content"></div>
 
-  const res = await fetch("http://localhost:3000/api/build/" + id);
-  const build = await res.json();
+  <script>
+    const PARTS = [
+      { key: "cpu", label: "Bộ vi xử lý" },
+      { key: "main", label: "Bo mạch chủ" },
+      { key: "ram", label: "RAM" },
+      { key: "ssd", label: "SSD" },
+      { key: "hdd", label: "HDD" },
+      { key: "vga", label: "VGA" },
+      { key: "psu", label: "Nguồn" },
+      { key: "case", label: "Vỏ case" },
+      { key: "monitor", label: "Màn hình" },
+      { key: "keyboard", label: "Bàn phím" },
+      { key: "mouse", label: "Chuột" },
+      { key: "headset", label: "Tai nghe" },
+      { key: "fan", label: "Fan case" },
+      { key: "aircool", label: "Tản nhiệt khí" },
+      { key: "aio", label: "Tản nhiệt nước AIO" },
+      { key: "custom", label: "Tản nhiệt nước Custom" },
+      { key: "windows", label: "Windows bản quyền" }
+    ];
 
-  let total = 0;
-  let html = "";
+    function loadFromShareLink() {
+      const params = new URLSearchParams(window.location.search);
+      const data = params.get("config");
 
-  for (const k in build) {
-    html += `<div class="item">${build[k].name} – ${build[k].price.toLocaleString()} đ</div>`;
-    total += build[k].price;
-  }
+      if (!data) {
+        document.body.innerHTML =
+          "<div class='error'>Không có cấu hình để hiển thị</div>";
+        return;
+      }
 
-  document.getElementById("list").innerHTML = html;
-  document.getElementById("total").innerText =
-    "TỔNG TIỀN: " + total.toLocaleString() + " đ";
-})();
-</script>
+      let build;
+      try {
+        build = JSON.parse(decodeURIComponent(atob(data)));
+      } catch (e) {
+        document.body.innerHTML =
+          "<div class='error'>Link cấu hình không hợp lệ</div>";
+        return;
+      }
+
+      let html = "<h2>CẤU HÌNH PC ĐƯỢC CHIA SẺ</h2>";
+      let total = 0;
+
+      for (const key in build) {
+        const part = PARTS.find(p => p.key === key);
+        html += `
+          <div class="item">
+            <div><b>${part ? part.label : key}</b>: ${build[key].name}</div>
+            <div>${build[key].price.toLocaleString()} đ</div>
+          </div>
+        `;
+        total += build[key].price;
+      }
+
+      html += `
+        <div class="total">
+          TỔNG TIỀN: ${total.toLocaleString()} đ
+        </div>
+        <a class="back" href="/">← Quay lại trang cấu hình</a>
+      `;
+
+      document.getElementById("content").innerHTML = html;
+    }
+
+    loadFromShareLink();
+  </script>
+
 </body>
 </html>

@@ -181,10 +181,38 @@
       background: #dc2626;
       color: #fff;
     }
+
+    .cart-bar {
+      position: fixed;
+      top: 0;
+      right: 0;
+      background: hsl(0, 0%, 100%);
+      color: #da5e0b;
+      padding: 10px 16px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 9999;
+      border-bottom-left-radius: 6px;
+      cursor: pointer;
+    }
+
+    .cart-icon {
+      background: #e63d3d;
+      color: #fff;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   </style>
 </head>
 
 <body>
+
   <div class="page">
     <div class="title">CHỌN LINH KIỆN XÂY DỰNG CẤU HÌNH</div>
 
@@ -201,6 +229,28 @@
     <div id="savedBuilds"></div>
 
   </div>
+  <!-- CART BAR -->
+  <div id="cartBar" class="cart-bar" onclick="openCart()">
+    <span class="cart-icon">🛒</span>
+    <span>Giỏ hàng (<span id="cartCount">0</span>)</span>
+  </div>
+
+  <!-- CART OVERLAY -->
+  <div class="overlay" id="cartOverlay">
+    <div class="modal" style="width:600px; max-height:80vh; overflow:auto">
+      <h3 style="margin-top:0">GIỎ HÀNG</h3>
+
+      <div id="cartList"></div>
+
+      <hr>
+      <div id="cartTotal" style="font-weight:bold"></div>
+
+      <div style="text-align:right;margin-top:15px">
+        <button class="btn" style="background:#9ca3af" onclick="closeCart()">Đóng</button>
+      </div>
+    </div>
+  </div>
+
 
   <!-- OVERLAY -->
   <div class="overlay" id="overlay">
@@ -352,23 +402,6 @@
     let build = JSON.parse(localStorage.getItem("pc_build")) || {};
     let currentKey = "";
     let deleteKey = "";
-    (function loadFromShareLink() {
-      const params = new URLSearchParams(window.location.search);
-      const data = params.get("config");
-      if (!data) return;
-
-      try {
-        const decoded = JSON.parse(
-          decodeURIComponent(atob(data))
-        );
-        build = decoded;
-        localStorage.setItem("pc_build", JSON.stringify(build));
-      } catch (e) {
-        console.error("Link cấu hình không hợp lệ");
-      }
-    })();
-
-
     function render() {
       let html = "";
       let total = 0;
@@ -621,28 +654,25 @@
         link.click();
       });
     }
-    async function shareBuild() {
+    function shareBuild() {
       if (Object.keys(build).length === 0) {
         alert("Chưa có cấu hình để chia sẻ");
         return;
       }
 
-      const res = await fetch("http://localhost:3000/api/share", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(build)
-      });
-
-      const data = await res.json();
+      const encoded = btoa(
+        encodeURIComponent(JSON.stringify(build))
+      );
 
       const shareUrl =
         window.location.origin +
-        "/view.html?id=" +
-        data.id;
+        "/view?config=" +
+        encoded;
 
-      await navigator.clipboard.writeText(shareUrl);
-      alert("Đã tạo link chia sẻ:\n" + shareUrl);
+      // 👉 CHUYỂN TRANG LUÔN
+      window.location.href = shareUrl;
     }
+
 
 
     function printBuild() {
@@ -651,7 +681,6 @@
     }
 
     function addToCart() {
-      // Demo: lưu cấu hình hiện tại vào localStorage giỏ hàng
       if (Object.keys(build).length === 0) {
         alert("Bạn chưa chọn linh kiện nào!");
         return;
@@ -667,10 +696,75 @@
 
       localStorage.setItem("cart_builds", JSON.stringify(cart));
 
-      alert("Đã thêm cấu hình vào giỏ hàng!");
+      updateCartCount();
     }
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem("cart_builds")) || [];
+      document.getElementById("cartCount").innerText = cart.length;
+    }
+    function openCart() {
+      renderCart();
+      document.getElementById("cartOverlay").style.display = "flex";
+    }
+
+    function closeCart() {
+      document.getElementById("cartOverlay").style.display = "none";
+    }
+
+    function renderCart() {
+      const cart = JSON.parse(localStorage.getItem("cart_builds")) || [];
+      const listEl = document.getElementById("cartList");
+      const totalEl = document.getElementById("cartTotal");
+
+      listEl.innerHTML = "";
+      totalEl.innerHTML = "";
+
+      if (cart.length === 0) {
+        listEl.innerHTML = "<i>Giỏ hàng trống</i>";
+        return;
+      }
+
+      let grandTotal = 0;
+
+      cart.forEach((item, index) => {
+        let total = 0;
+        let html = `<div style="border:1px solid #e5e7eb;padding:10px;margin-bottom:10px">
+      <b>Cấu hình ${index + 1}</b>
+      <div style="font-size:13px;color:#6b7280">${item.time}</div>`;
+
+        for (const key in item.build) {
+          html += `<div>- ${item.build[key].name}</div>`;
+          total += item.build[key].price;
+        }
+
+        grandTotal += total;
+
+        html += `
+      <div style="margin-top:6px;font-weight:bold">
+        Tổng: ${total.toLocaleString()} đ
+      </div>
+      <button class="btn-delete" style="margin-top:8px"
+        onclick="removeCartItem(${index})">Xóa</button>
+    </div>`;
+
+        listEl.innerHTML += html;
+      });
+
+      totalEl.innerText = "TỔNG TIỀN GIỎ HÀNG: " + grandTotal.toLocaleString() + " đ";
+    }
+    function removeCartItem(index) {
+      let cart = JSON.parse(localStorage.getItem("cart_builds")) || [];
+      cart.splice(index, 1);
+      localStorage.setItem("cart_builds", JSON.stringify(cart));
+      updateCartCount();
+      renderCart();
+    }
+
+
+
     render();
     renderSavedBuilds();
+    updateCartCount();
 
 
 
