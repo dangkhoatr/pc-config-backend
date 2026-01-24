@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Xem cấu hình PC</title>
+<style>
+body { font-family: 'Times New Roman'; padding: 40px }
+.item { border-bottom: 1px solid #ddd; padding: 8px 0 }
+.total { font-weight: bold; margin-top: 20px }
+</style>
+</head>
+
+<body>
+<h2>CẤU HÌNH PC ĐÃ CHỌN</h2>
+<div id="list"></div>
+<div class="total" id="total"></div>
+
+<script>
+(async function () {
+  const id = new URLSearchParams(location.search).get("id");
+  if (!id) return;
+
+  const res = await fetch("http://localhost:3000/api/build/" + id);
+  const build = await res.json();
+
+  let total = 0;
+  let html = "";
+
+  for (const k in build) {
+    html += `<div class="item">${build[k].name} – ${build[k].price.toLocaleString()} đ</div>`;
+    total += build[k].price;
+  }
+
+  document.getElementById("list").innerHTML = html;
+  document.getElementById("total").innerText =
+    "TỔNG TIỀN: " + total.toLocaleString() + " đ";
+})();
+</script>
+</body>
+</html>
