@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title><%= product.name %></title>
+  <style>
+    body { font-family: Arial; padding: 30px; }
+    img { max-width: 400px; }
+    .price { color: red; font-size: 20px; font-weight: bold; }
+    .old { text-decoration: line-through; color: #999; }
+  </style>
+</head>
+<body>
+
+  <h1><%= product.name %></h1>
+
+  <img src="<%= product.image %>" alt="<%= product.name %>">
+
+  <p class="price">
+    <%= product.price.toLocaleString() %> đ
+    <span class="old"><%= product.oldPrice.toLocaleString() %> đ</span>
+  </p>
+
+  <p><%= product.description %></p>
+
+  <a href="/">⬅ Quay lại</a>
+
+</body>
+</html>
