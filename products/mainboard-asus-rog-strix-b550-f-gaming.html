@@ -2,28 +2,17 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title><%= product.name %></title>
-  <style>
-    body { font-family: Arial; padding: 30px; }
-    img { max-width: 400px; }
-    .price { color: red; font-size: 20px; font-weight: bold; }
-    .old { text-decoration: line-through; color: #999; }
-  </style>
+  <title>Mainboard Asus ROG STRIX B550-F GAMING</title>
 </head>
 <body>
 
-  <h1><%= product.name %></h1>
+  <a href="../index.html">⬅ Quay lại</a>
 
-  <img src="<%= product.image %>" alt="<%= product.name %>">
+  <h1>Mainboard Asus ROG STRIX B550-F GAMING</h1>
 
-  <p class="price">
-    <%= product.price.toLocaleString() %> đ
-    <span class="old"><%= product.oldPrice.toLocaleString() %> đ</span>
-  </p>
+  <img src="../image/pc.jpg" width="300">
 
-  <p><%= product.description %></p>
-
-  <a href="/">⬅ Quay lại</a>
+  <p>Giá: <b>4.999.000 đ</b></p>
 
 </body>
 </html>
