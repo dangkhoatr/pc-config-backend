@@ -123,6 +123,102 @@
       font-weight: 600;
     }
 
+    .sales-support-wrap {
+      position: relative;
+      display: inline-block;
+    }
+
+    .sales-support-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #f59e0b;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .sales-support-dropdown {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0;
+      width: 400px;
+      background: #f3f4f6;
+      border: 1px solid #2b90ef;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+      z-index: 99999;
+
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px);
+      transition: all 0.25s ease;
+    }
+
+    .sales-support-wrap:hover .sales-support-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .sales-support-title {
+      background: #1697d4;
+      color: #fff;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 10px 12px;
+    }
+
+    .sales-support-body {
+      padding: 12px 14px 14px;
+    }
+
+    .sales-support-section {
+      margin-bottom: 14px;
+    }
+
+    .sales-support-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .sales-support-section h4 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .sales-support-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 4px 0;
+      font-size: 15px;
+      color: #111827;
+    }
+
+    .sales-support-name {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sales-support-name::before {
+      content: "🟦";
+      font-size: 11px;
+      line-height: 1;
+    }
+
+    .sales-support-phone {
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+
     .search-bar {
       display: flex;
       align-items: center;
@@ -230,6 +326,75 @@
       align-items: center;
       gap: 8px;
     }
+
+    .account-wrap {
+      position: relative;
+      display: inline-block;
+    }
+
+    .header-account {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .account-dropdown {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 120px;
+      background: #fff;
+      border-radius: 3px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      z-index: 99999;
+
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s ease;
+    }
+
+    .account-wrap:hover .account-dropdown {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .account-dropdown::before {
+      content: "";
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-bottom: 8px solid #fff;
+    }
+
+    .account-dropdown a {
+      display: block;
+      padding: 12px 18px;
+      text-align: center;
+      text-decoration: none;
+      color: #111827;
+      font-weight: 700;
+      border-bottom: 1px solid #d1d5db;
+      white-space: nowrap;
+    }
+
+
+    .account-dropdown a:last-child {
+      border-bottom: none;
+    }
+
+    .account-dropdown a:hover {
+      background: #f3f4f6;
+    }
+
 
     .action-icon {
       width: 36px;
@@ -834,7 +999,53 @@
                   referrerpolicy="no-referrer-when-downgrade"></iframe>
               </div>
             </div>
-            <a href="#" class="pill">Tư vấn bán hàng</a>
+            <div class="sales-support-wrap">
+              <a href="#" class="sales-support-btn">🎧 Tư vấn bán hàng</a>
+
+              <div class="sales-support-dropdown">
+                <div class="sales-support-title">HỖ TRỢ TẠI HÀ NỘI/TOÀN QUỐC</div>
+
+                <div class="sales-support-body">
+                  <div class="sales-support-section">
+                    <h4>Bán hàng online</h4>
+
+                    <div class="sales-support-row">
+                      <span class="sales-support-name">Mr Khoa</span>
+                      <span class="sales-support-phone">012.345.6789</span>
+                    </div>
+
+                    <div class="sales-support-row">
+                      <span class="sales-support-name">Mr Khoa</span>
+                      <span class="sales-support-phone">012.345.6789</span>
+                    </div>
+
+                    <div class="sales-support-row">
+                      <span class="sales-support-name">Mr Khoa</span>
+                      <span class="sales-support-phone">012.345.6789</span>
+                    </div>
+                  </div>
+
+                  <div class="sales-support-section">
+                    <h4>Kỹ thuật - Bảo hành</h4>
+
+                    <div class="sales-support-row">
+                      <span class="sales-support-name">Bảo Hành</span>
+                      <span class="sales-support-phone">012.345.6789</span>
+                    </div>
+                  </div>
+
+                  <div class="sales-support-section">
+                    <h4>Tư vấn tản nhiệt nước - Modding</h4>
+
+                    <div class="sales-support-row">
+                      <span class="sales-support-name">Mr Khoa</span>
+                      <span class="sales-support-phone">012.345.6789</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <a href="#">🧾 Chính sách bảo hành</a>
             <a href="#">💳 Mua trả góp</a>
             <a href="#">📰 Tin tức</a>
@@ -870,7 +1081,15 @@
             <span>Xây dựng<br>cấu hình</span>
           </a>
 
-          <a href="#" class="header-account">◉ TÀI KHOẢN</a>
+          <div class="account-wrap">
+            <a href="#" class="header-account">◉ TÀI KHOẢN</a>
+
+            <div class="account-dropdown">
+              <a href="dangky.html">ĐĂNG KÝ</a>
+              <a href="dangnhap.html">ĐĂNG NHẬP</a>
+            </div>
+          </div>
+
 
           <div class="header-cart">
             <div class="cart-icon">
@@ -1001,74 +1220,7 @@
   <section class="ref-section">
     <div class="ref-title">CẤU HÌNH THAM KHẢO</div>
 
-    <div class="ref-grid">
-
-      <!-- CARD 1 -->
-      <div class="ref-card">
-        <div class="ref-badge">-6%</div>
-        <a href="product/mainboard-asus-rog-strix-b550-f-gaming.html">
-          <img src="image/pc.jpg" alt="Mainboard Asus ROG STRIX B550-F GAMING" class="product-img">
-        </a>
-        <div class="ref-name">Mainboard Asus ROG STRIX B550-F GAMING</div>
-        <div>
-          <span class="ref-price-new">4.999.000 đ</span>
-          <span class="ref-price-old">5.290.000 đ</span>
-        </div>
-        <div class="ref-actions">
-          <button>✔ Liên hệ</button>
-          <button onclick="loadPreset(1)">Thêm vào cấu hình</button>
-        </div>
-        <div class="ref-viewall">Xem tất cả 8 sản phẩm ›</div>
-      </div>
-
-      <!-- CARD 2 -->
-      <div class="ref-card">
-        <div class="ref-badge">-9%</div>
-        <img src="image/pc.jpg">
-        <div class="ref-name">Vỏ case Inwin 925 Black - Full Tower</div>
-        <div>
-          <span class="ref-price-new">10.990.000 đ</span>
-          <span class="ref-price-old">11.990.000 đ</span>
-        </div>
-        <div class="ref-actions">
-          <button>✔ Liên hệ</button>
-          <button onclick="loadPreset(2)">Thêm vào cấu hình</button>
-        </div>
-        <div class="ref-viewall">Xem tất cả 7 sản phẩm ›</div>
-      </div>
-
-      <!-- CARD 3 -->
-      <div class="ref-card">
-        <div class="ref-badge">-24%</div>
-        <img src="image/pc.jpg">
-        <div class="ref-name">Mainboard Asus PRIME B550M-K</div>
-        <div>
-          <span class="ref-price-new">1.999.000 đ</span>
-          <span class="ref-price-old">2.599.000 đ</span>
-        </div>
-        <div class="ref-actions">
-          <button>✔ Liên hệ</button>
-          <button onclick="loadPreset(3)">Thêm vào cấu hình</button>
-        </div>
-        <div class="ref-viewall">Xem tất cả 7 sản phẩm ›</div>
-      </div>
-      <!-- CARD 4 -->
-      <div class="ref-card">
-        <div class="ref-badge">-24%</div>
-        <img src="image/pc.jpg">
-        <div class="ref-name">Bộ cấu hình Gaming phổ thông</div>
-        <div>
-          <span class="ref-price-new">15.990.000 đ</span>
-          <span class="ref-price-old">20.990.000 đ</span>
-        </div>
-        <div class="ref-actions">
-          <button>✔ Liên hệ</button>
-          <button onclick="loadPreset(4)">Thêm vào cấu hình</button>
-        </div>
-        <div class="ref-viewall">Xem tất cả 7 sản phẩm ›</div>
-      </div>
-
-    </div>
+    <div class="ref-grid" id="refGrid"></div>
   </section>
 
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -1095,76 +1247,7 @@
     ];
 
 
-    const DATA = {
-      cpu: [
-        { name: "Intel Core i5-12400F", price: 3500000 },
-        { name: "AMD Ryzen 5 5600X", price: 3900000 }
-      ],
-      main: [
-        { name: "B660M", price: 2200000 },
-        { name: "B760M", price: 2900000 }
-      ],
-      ram: [
-        { name: "16GB DDR4", price: 1200000 },
-        { name: "32GB DDR4", price: 2200000 }
-      ],
-      ssd: [
-        { name: "SSD 512GB", price: 1300000 },
-        { name: "SSD 1TB", price: 2300000 }
-      ],
-      hdd: [
-        { name: "HDD 1TB", price: 900000 },
-        { name: "HDD 2TB", price: 1500000 }
-      ],
-      vga: [
-        { name: "RTX 3060", price: 7500000 },
-        { name: "RTX 4060", price: 9500000 }
-      ],
-      psu: [
-        { name: "650W Bronze", price: 1200000 },
-        { name: "750W Gold", price: 1800000 }
-      ],
-      case: [
-        { name: "Case Mid Tower", price: 1000000 },
-        { name: "Case Full Tower", price: 1800000 }
-      ],
-      monitor: [
-        { name: "24 inch FHD", price: 3000000 },
-        { name: "27 inch QHD", price: 5200000 }
-      ],
-      keyboard: [
-        { name: "Phím cơ", price: 600000 },
-        { name: "Phím văn phòng", price: 300000 }
-      ],
-      mouse: [
-        { name: "Chuột gaming", price: 400000 },
-        { name: "Chuột văn phòng", price: 200000 }
-      ],
-      headset: [
-        { name: "Tai nghe gaming", price: 800000 },
-        { name: "Tai nghe thường", price: 400000 }
-      ],
-      fan: [
-        { name: "Fan RGB", price: 300000 },
-        { name: "Fan thường", price: 150000 }
-      ],
-      aircool: [
-        { name: "Tản khí Cooler Master", price: 700000 },
-        { name: "Tản khí Noctua", price: 1500000 }
-      ],
-      aio: [
-        { name: "AIO 240mm", price: 2500000 },
-        { name: "AIO 360mm", price: 4200000 }
-      ],
-      custom: [
-        { name: "Custom cơ bản", price: 5000000 },
-        { name: "Custom cao cấp", price: 9000000 }
-      ],
-      windows: [
-        { name: "Windows 11 Home", price: 1200000 },
-        { name: "Windows 11 Pro", price: 2500000 }
-      ]
-    };
+    let DATA = {};
 
 
     let build = {};
@@ -1476,18 +1559,10 @@
         return;
       }
 
-      const encoded = btoa(
-        encodeURIComponent(JSON.stringify(build))
-      );
-
-      const shareUrl =
-        window.location.origin +
-        "/view?config=" +
-        encoded;
-
-      // 👉 CHUYỂN TRANG LUÔN
-      window.location.href = shareUrl;
+      const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(build))));
+      window.location.href = "share-build.html?config=" + encoded;
     }
+
 
 
 
@@ -1581,22 +1656,81 @@
     }
 
     /* ===== PRESET CẤU HÌNH THAM KHẢO ===== */
-    const PRESET_BUILDS = {
-      1: {
-        main: { name: "Asus ROG STRIX B550-F GAMING", price: 4999000 }
-      },
-      2: {
-        case: { name: "Inwin 925 Black Full Tower", price: 10990000 }
-      },
-      3: {
-        main: { name: "Asus PRIME B550M-K", price: 1999000 }
-      },
-      4: {
-        cpu: { name: "Ryzen 5 5600X", price: 3900000 },
-        ram: { name: "16GB DDR4", price: 1200000 },
-        vga: { name: "RTX 3060", price: 7500000 }
+    let PRESET_BUILDS = {};
+    async function loadBackendData() {
+      try {
+        const [partsRes, productsRes] = await Promise.all([
+          fetch("http://localhost:3000/api/parts/items"),
+          fetch("http://localhost:3000/api/products")
+        ]);
+
+        if (!partsRes.ok) {
+          throw new Error("Không lấy được dữ liệu linh kiện");
+        }
+
+        if (!productsRes.ok) {
+          throw new Error("Không lấy được dữ liệu sản phẩm");
+        }
+
+        DATA = await partsRes.json();
+        const products = await productsRes.json();
+
+        PRESET_BUILDS = {};
+        products.forEach((product, index) => {
+          PRESET_BUILDS[index + 1] = product.preset_json || {};
+        });
+
+        renderReferenceProducts(products);
+        render();
+        renderSavedBuilds();
+        updateCartCount();
+      } catch (error) {
+        console.error("Lỗi load backend data:", error);
       }
-    };
+    }
+    function renderReferenceProducts(products) {
+      const refGrid = document.getElementById("refGrid");
+      if (!refGrid) return;
+
+      let html = "";
+
+      products.forEach((product, index) => {
+        html += `
+      <div class="ref-card">
+        <div class="ref-badge">${product.badge || ""}</div>
+
+        <a href="product-detail.html?slug=${product.slug}">
+          <img src="${product.image}" alt="${product.name}" class="product-img">
+        </a>
+
+        <div class="ref-name">${product.name}</div>
+
+        <div>
+          <span class="ref-price-new">${Number(product.price).toLocaleString("vi-VN")} đ</span>
+          ${product.old_price
+            ? `<span class="ref-price-old">${Number(product.old_price).toLocaleString("vi-VN")} đ</span>`
+            : ""
+          }
+        </div>
+
+        <div class="ref-actions">
+          <button>✔ Liên hệ</button>
+          <button onclick="loadPreset(${index + 1})">Thêm vào cấu hình</button>
+        </div>
+
+        <div class="ref-viewall">
+          <a href="product-detail.html?slug=${product.slug}" style="text-decoration:none; color:inherit;">
+            Xem chi tiết ›
+          </a>
+        </div>
+      </div>
+    `;
+      });
+
+      refGrid.innerHTML = html;
+    }
+
+
 
     function loadPreset(id) {
       const preset = PRESET_BUILDS[id];
@@ -1607,9 +1741,8 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    render();
-    renderSavedBuilds();
-    updateCartCount();
+    loadBackendData();
+
     function scrollToTop() {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }

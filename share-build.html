@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cấu hình được chia sẻ</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+      color: #111827;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      border-radius: 10px;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 28px;
+      color: #dc2626;
+    }
+
+    .desc {
+      color: #6b7280;
+      margin-bottom: 20px;
+    }
+
+    .row {
+      display: flex;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .row:nth-child(odd) {
+      background: #ffffff;
+    }
+
+    .row:nth-child(even) {
+      background: #f9fafb;
+    }
+
+    .cell-left {
+      width: 260px;
+      padding: 12px;
+      font-weight: 700;
+    }
+
+    .cell-right {
+      flex: 1;
+      padding: 12px;
+    }
+
+    .total {
+      margin-top: 20px;
+      font-size: 22px;
+      font-weight: 700;
+      color: #dc2626;
+    }
+
+    .actions {
+      margin-top: 24px;
+      display: flex;
+      justify-content: center;
+    }
+
+
+    .btn {
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      padding: 12px 18px;
+      cursor: pointer;
+      font-weight: 700;
+      border-radius: 6px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn.red {
+      background: #dc2626;
+    }
+
+    .empty {
+      font-style: italic;
+      color: #6b7280;
+      padding: 20px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>CẤU HÌNH ĐƯỢC CHIA SẺ</h1>
+    <div class="desc">Danh sách linh kiện đã chọn từ trang cấu hình.</div>
+
+    <div id="buildList"></div>
+    <div id="buildTotal" class="total"></div>
+
+    <div class="actions">
+      <button class="btn red" onclick="window.print()">In cấu hình</button>
+    </div>
+  </div>
+
+  <script>
+    const PARTS = {
+      cpu: "Bộ vi xử lý",
+      main: "Bo mạch chủ",
+      ram: "RAM",
+      ssd: "SSD",
+      hdd: "HDD",
+      vga: "VGA",
+      psu: "Nguồn",
+      case: "Vỏ case",
+      monitor: "Màn hình",
+      keyboard: "Bàn phím",
+      mouse: "Chuột",
+      headset: "Tai nghe",
+      fan: "Fan case",
+      aircool: "Tản nhiệt khí",
+      aio: "Tản nhiệt nước AIO",
+      custom: "Tản nhiệt nước Custom",
+      windows: "Windows bản quyền"
+    };
+
+    function decodeConfig(encoded) {
+      try {
+        return JSON.parse(decodeURIComponent(escape(atob(encoded))));
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function renderSharedBuild() {
+      const params = new URLSearchParams(window.location.search);
+      const config = params.get("config");
+
+      const buildList = document.getElementById("buildList");
+      const buildTotal = document.getElementById("buildTotal");
+
+      if (!config) {
+        buildList.innerHTML = '<div class="empty">Không có dữ liệu cấu hình để hiển thị.</div>';
+        buildTotal.innerHTML = "";
+        return;
+      }
+
+      const build = decodeConfig(config);
+
+      if (!build || Object.keys(build).length === 0) {
+        buildList.innerHTML = '<div class="empty">Cấu hình không hợp lệ hoặc trống.</div>';
+        buildTotal.innerHTML = "";
+        return;
+      }
+
+      let html = "";
+      let total = 0;
+
+      for (const key in build) {
+        const item = build[key];
+        const qty = Number(item.qty || 1);
+        const lineTotal = Number(item.price || 0) * qty;
+        total += lineTotal;
+
+        html += `
+          <div class="row">
+            <div class="cell-left">${PARTS[key] || key}</div>
+            <div class="cell-right">
+              ${item.name} x${qty}
+              <div style="margin-top:6px; color:#dc2626; font-weight:700;">
+                ${lineTotal.toLocaleString("vi-VN")} đ
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      buildList.innerHTML = html;
+      buildTotal.innerHTML = "TỔNG TIỀN: " + total.toLocaleString("vi-VN") + " đ";
+    }
+
+    renderSharedBuild();
+  </script>
+</body>
+
+</html>

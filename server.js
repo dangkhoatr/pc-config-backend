@@ -1,23 +1,24 @@
 const express = require("express");
-const path = require("path");
+const cors = require("cors");
+require("dotenv").config();
+
+const productsRouter = require("./routes/products");
+const partsRouter = require("./routes/parts");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-// Serve static files
-app.use("/products", express.static(path.join(__dirname, "products")));
-app.use("/image", express.static(path.join(__dirname, "image")));
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Trang chính
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "A.html"));
+  res.json({ message: "EIU Computer Backend is running" });
 });
 
-// Trang view (GIỮ NGUYÊN)
-app.get("/view", (req, res) => {
-  res.sendFile(path.join(__dirname, "view.html"));
-});
+app.use("/api/products", productsRouter);
+app.use("/api/parts", partsRouter);
 
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Server chạy tại http://localhost:${PORT}`);
 });
